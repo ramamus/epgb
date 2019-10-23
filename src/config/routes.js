@@ -22,6 +22,6 @@ export default [
   {
     path: '/reports',
     page: 'Reports',
-    title: 'Player Report'
+    title: 'Players Report'
   }
 ];
