@@ -71,7 +71,7 @@ export function* updatePlayerSaga() {
 
 export function* requestAllPlayers({ type }) {  
   try {
-    const response = yield call(request, 'http://157.230.219.13:8081/api/playersV2');
+    const response = yield call(request, 'https://cooze8lmsj.execute-api.us-east-1.amazonaws.com/dev/player');
     yield put(requestSucceeded(type, 'PLAYERS', response));
   } catch (e) {
     console.error(e);
