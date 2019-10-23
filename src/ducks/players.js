@@ -88,7 +88,7 @@ export function* updatePlayer({ updatedPlayer, onSuccess }) {
       },
       body: JSON.stringify(updatedPlayer)
     };
-    const BASE_URL = `http://157.230.219.13:8081/api/playersV2/${updatedPlayer.id}`;
+    const BASE_URL = `https://cooze8lmsj.execute-api.us-east-1.amazonaws.com/dev/player/${updatedPlayer.id}`;
     const response = yield call(request, BASE_URL, options);
     yield put(requestSucceeded(UPDATE_PLAYER, 'PLAYERS', response, null));
     if (onSuccess) {
