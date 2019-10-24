@@ -11,7 +11,6 @@ export const REQUEST_PLAYERS = 'players/REQUEST_PLAYERS';
 export const REQUEST_SUCCEEDED = 'players/REQUEST_SUCCEEDED';
 export const REQUEST_FAILED = 'players/REQUEST_FAILED';
 
-
 export function requestFailed(requestType, resourceType, response, details) {
   return {
     type: REQUEST_FAILED,
@@ -69,9 +68,12 @@ export function* updatePlayerSaga() {
   yield takeEvery(REQUEST_PLAYERS, requestAllPlayers);
 }
 
-export function* requestAllPlayers({ type }) {  
+export function* requestAllPlayers({ type }) {
   try {
-    const response = yield call(request, 'https://cooze8lmsj.execute-api.us-east-1.amazonaws.com/dev/player');
+    const response = yield call(
+      request,
+      'https://cooze8lmsj.execute-api.us-east-1.amazonaws.com/dev/player'
+    );
     yield put(requestSucceeded(type, 'PLAYERS', response));
   } catch (e) {
     console.error(e);
@@ -178,7 +180,7 @@ export const filteredPlayers = createSelector(
                 ? player[key]
                     .toString()
                     .toLowerCase()
-                    .includes(value.toLowerCase())
+                    .includes(value.toString().toLowerCase())
                 : false
             )
           );
