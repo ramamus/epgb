@@ -1,7 +1,7 @@
 import { ASC } from '../ducks/sort';
 
 const defaultSort = {
-  transition_manager: [{ field: 'first_name', order: ASC }]
+  transition_manager: [{ field: 'firstname', order: ASC }]
 };
 
 export default defaultSort;

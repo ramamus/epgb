@@ -23,7 +23,7 @@ const NewStoreCard = ({ player }) => {
           <Attribute
             className={'set-date'}
             label={'First Name'}
-            value="ANU"
+            value={firstname}
           />
           <Attribute
             className={'pyramid-id'}
