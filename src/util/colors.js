@@ -1,6 +1,4 @@
 export default {
-  accent: '#888',
-  gentleAccent: '#f2f2f2',
   accentDark: '#6aa3a8',
   accentDarker: '#563850',
   background: 'rgba(227, 227, 227, 0.5)',
@@ -9,12 +7,13 @@ export default {
   genericBorder: '#9b9b9b',
   error: '#d0021b',
   danger: '#a94442',
+  gentleAccent: '#2d5363',
   niceBlue: '#022A44',
   warning: '#ff0033',
   warningLight: '#ffcccc',
   failureRed: '#f96363',
   successGreen: '#47c9a2',
-  fontFamily: `Targetica, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;`
+  fontFamily: `Targetica, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif`
 };
 
 export const alt1 = {
@@ -30,7 +29,7 @@ export const alt1 = {
 
 export const searchBar = {
   fontSize: '14px',
-  fontFamily: `Targetica, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;`,
+  fontFamily: `Targetica, "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif`,
   borderRadius: '0',
   borderColor: 'black'
 };
