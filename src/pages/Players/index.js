@@ -3,17 +3,10 @@ import { connect } from 'react-redux';
 import { toArray } from '../../util/reshape';
 import PlayersHotloaders from '../../components/hotloaders/PlayersHotloaders';
 import { requestUpdatePlayer } from '../../ducks/players';
-import {
-  Button,
-  Badge,
-  Container,
-  Col,
-  Form,
-  Row,
-  InputGroup
-} from 'react-bootstrap';
+import { Button, Badge, Container, Col, Form, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import colors from '../../util/colors';
+import Switch from 'react-switch';
 
 export const Players = ({ players, _requestUpdatePlayer }) => {
   const [selectedValue, setSelectedValue] = useState('');
@@ -87,16 +80,24 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
                       <Row>
                         <Col md={9}>
                           <Label>{team}</Label>
-                          <InputGroup className="mb-3">
-                            <InputGroup.Checkbox
-                              checked={checkedin}
-                              aria-label="Checkbox for following text input"
-                              onChange={() => handleChecked(id)}
-                            />
-                            <InfoText className="name">
-                              {firstname} {lastname}
-                            </InfoText>
-                          </InputGroup>
+                          <Switch
+                            onChange={() => handleChecked(id)}
+                            checked={checkedin}
+                            onColor="#86d3ff"
+                            onHandleColor="#2693e6"
+                            handleDiameter={30}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                            height={20}
+                            width={48}
+                            className="react-switch"
+                            id="material-switch"
+                          />
+                          <InfoText className="name">
+                            {firstname} {lastname}
+                          </InfoText>
                         </Col>
                       </Row>
                     </InfoCard>
