@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { AppTopbar } from './AppTopbar';
 import { AppMenu } from './AppMenu';
-// import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import Reports from '../src/pages/Reports';
+import Players from '../src/pages/Players';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -151,8 +153,8 @@ class App extends Component {
           <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
         </div>
         <div className="layout-main">
-          {/* <Route path="/" exact component={Players} /> */}
-          {/* <Route path="/reports" component={Reports} /> */}
+          <Route path="/" exact component={Players} />
+          <Route path="/reports" component={Reports} />
         </div>
         <div className="layout-mask"></div>
       </div>
