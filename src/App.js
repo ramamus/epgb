@@ -25,7 +25,7 @@ class App extends Component {
       overlayMenuActive: false,
       mobileMenuActive: false
     };
-
+    document.title = 'EPGBB';
     this.onWrapperClick = this.onWrapperClick.bind(this);
     this.onToggleMenu = this.onToggleMenu.bind(this);
     this.onSidebarClick = this.onSidebarClick.bind(this);
