@@ -5,7 +5,6 @@ import { AppMenu } from "./AppMenu";
 import { Route } from "react-router-dom";
 import Reports from "../src/pages/Reports";
 import Players from "../src/pages/Players";
-import Event from "../src/pages/Event";
 import Schedule from '../src/pages/Schedule';
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -84,13 +83,6 @@ class App extends Component {
 
   createMenu() {
     this.menu = [
-      {
-        label: 'Events',
-        icon: 'pi pi-fw pi-th-large',
-        command: () => {
-          window.location = '#/events';
-        }
-      },
       {
         label: "Players",
         icon: "pi pi-fw pi-user",
@@ -172,7 +164,6 @@ class App extends Component {
         <div className="layout-main">
           <Route path="/" exact component={Players} />
           <Route path="/reports" component={Reports} />
-          <Route path="/events" component={Event} />
           <Route path="/schedule" component={Schedule} />
         </div>
         <div className="layout-mask"></div>

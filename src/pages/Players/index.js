@@ -146,10 +146,10 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
               filterByAnyValue(players, selectedValue).map(
                 ({ firstname, lastname, grade, team, checkedin, id }) => {
                   return (
-                    <li>
+                    <li key={id}>
                       <button className="p-link">
                         <InputSwitch
-                          id={id}
+                          id={id.toString()}
                           checked={checkedin}
                           onChange={event => handleCheckin(event)}
                         />

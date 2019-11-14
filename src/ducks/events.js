@@ -4,6 +4,8 @@ import { toObject } from '../util/reshape';
 
 export const REQUEST_UPDATE_EVENT = 'events/REQUEST_UPDATE_EVENT';
 export const UPDATE_EVENT = 'events/UPDATE_EVENT';
+export const REQUEST_CREATE_EVENT = 'events/REQUEST_CREATE_EVENT';
+export const CREATE_EVENT = 'events/CREATE_EVENT';
 export const REQUEST_EVENTS = 'events/REQUEST_EVENTS';
 export const REQUEST_SUCCEEDED = 'events/REQUEST_SUCCEEDED';
 export const REQUEST_FAILED = 'events/REQUEST_FAILED';
@@ -36,6 +38,14 @@ export function requestUpdateEvent(updatedEvent, onSuccess) {
   };
 }
 
+export function requestCreateEvent(newEvent, onSuccess){
+  return {
+    type: REQUEST_CREATE_EVENT,
+    newEvent,
+    onSuccess
+  }
+}
+
 export function requestEvents() {
   return {
     type: REQUEST_EVENTS
@@ -51,7 +61,7 @@ export default function reducer(state = initialState, action) {
       if (requestType === REQUEST_EVENTS) {
         return resourceType === 'EVENTS' ? toObject(response, 'id') : state;
       }
-      if (requestType === UPDATE_EVENT) {
+      if (requestType === UPDATE_EVENT || requestType === CREATE_EVENT) {
         return { ...state, [response.id]: response };
       }
       break;
@@ -63,6 +73,7 @@ export default function reducer(state = initialState, action) {
 export function* updateEventSaga() {
   yield takeEvery(REQUEST_UPDATE_EVENT, updateEvent);
   yield takeEvery(REQUEST_EVENTS, requestAllEvents);
+  yield takeEvery(REQUEST_CREATE_EVENT, createEvent);
 }
 
 export function* requestAllEvents({ type }) {
@@ -75,6 +86,31 @@ export function* requestAllEvents({ type }) {
   } catch (e) {
     console.error(e);
     yield put(requestFailed(type, 'EVENTS', e));
+  }
+}
+
+export function* createEvent({ newEvent, onSuccess }) {
+  try {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newEvent)
+    };
+    const BASE_URL = `https://8g9xcx7821.execute-api.us-east-1.amazonaws.com/dev/event`;
+    const response = yield call(request, BASE_URL, options);
+    const updatedResponse = {
+      id: response,
+      ...newEvent
+    }
+    yield put(requestSucceeded(CREATE_EVENT, 'EVENTS', updatedResponse, null));
+    if (onSuccess) {
+      onSuccess(updatedResponse);
+    }
+  } catch (e) {
+    console.error(e);
+    yield put(requestFailed(UPDATE_EVENT, 'EVENTS', e, null));
   }
 }
 
