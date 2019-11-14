@@ -58,6 +58,9 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
     datasets: [
       {
         data: [
+          groupByGrade[1] || 0,
+          groupByGrade[2] || 0,
+          groupByGrade[3] || 0,
           groupByGrade[4] || 0,
           groupByGrade[5] || 0,
           groupByGrade[6] || 0,
@@ -65,6 +68,9 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
           groupByGrade[8] || 0
         ],
         backgroundColor: [
+          '#9FA9BA',
+          '#167D83',
+          '#513F66',
           '#FFC107',
           '#03A9F4',
           '#4CAF50',
@@ -74,7 +80,7 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
         label: 'Grade'
       }
     ],
-    labels: ['4th', '5th', '6th', '7th', '8th']
+    labels: ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
   };
   const pieData = {
     labels: ['Travel', 'InHouse'],
@@ -151,7 +157,7 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
                           {firstname} {lastname}
                         </span>
                         <span className="email">
-                          {grade} {team}
+                          Grade-{grade} Team-{team}
                         </span>
                       </button>
                     </li>
