@@ -5,7 +5,7 @@ import { AppMenu } from "./AppMenu";
 import { Route } from "react-router-dom";
 import Reports from "../src/pages/Reports";
 import Players from "../src/pages/Players";
-import Schedule from '../src/pages/Schedule';
+import Schedule from "../src/pages/Schedule";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";

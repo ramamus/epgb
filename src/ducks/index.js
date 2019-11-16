@@ -9,16 +9,18 @@ import { all, fork } from "redux-saga/effects";
 import sort from "./sort";
 import players, { sagas as playerSagas } from "./players";
 import events, { sagas as eventsSagas } from "./events";
+import schedule, { sagas as scheduleSagas } from "./schedule";
 import search from "./search";
 
 export default {
   players,
   events,
+  schedule,
   search,
   sort
 };
 
-const allSagas = [...playerSagas, ...eventsSagas];
+const allSagas = [...playerSagas, ...eventsSagas, ...scheduleSagas];
 
 export function* rootSaga() {
   yield all(allSagas.map(saga => fork(saga)));

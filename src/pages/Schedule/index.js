@@ -80,7 +80,7 @@ export const Schedule = ({ events, _requestCreateEvent }) => {
               placeholder="Event Date"
               showIcon={true}
               value={startDate}
-              eventClick={e => setStartDate(e.value)}
+              onChange={e => setStartDate(e.value)}
             />
           </div>
           <div className="p-col-12 p-md-4" style={{ textAlign: "left" }}>
