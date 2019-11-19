@@ -1,31 +1,32 @@
-import React, { Component } from 'react';
-import classNames from 'classnames';
-import { AppTopbar } from './AppTopbar';
-import { AppMenu } from './AppMenu';
-import { Route } from 'react-router-dom';
-import Reports from '../src/pages/Reports';
-import Players from '../src/pages/Players';
-import 'primereact/resources/themes/nova-light/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
-import 'primeflex/primeflex.css';
-import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css';
-import '@fullcalendar/timegrid/main.css';
-import './layout/layout.scss';
-import './App.scss';
+import React, { Component } from "react";
+import classNames from "classnames";
+import { AppTopbar } from "./AppTopbar";
+import { AppMenu } from "./AppMenu";
+import { Route } from "react-router-dom";
+import Reports from "../src/pages/Reports";
+import Players from "../src/pages/Players";
+import Schedule from "../src/pages/Schedule";
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "primeflex/primeflex.css";
+import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+import "./layout/layout.scss";
+import "./App.scss";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      layoutMode: 'static',
-      layoutColorMode: 'dark',
+      layoutMode: "static",
+      layoutColorMode: "dark",
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false
     };
-    document.title = 'EPGBB';
+    document.title = "EPGBB";
     this.onWrapperClick = this.onWrapperClick.bind(this);
     this.onToggleMenu = this.onToggleMenu.bind(this);
     this.onSidebarClick = this.onSidebarClick.bind(this);
@@ -48,11 +49,11 @@ class App extends Component {
     this.menuClick = true;
 
     if (this.isDesktop()) {
-      if (this.state.layoutMode === 'overlay') {
+      if (this.state.layoutMode === "overlay") {
         this.setState({
           overlayMenuActive: !this.state.overlayMenuActive
         });
-      } else if (this.state.layoutMode === 'static') {
+      } else if (this.state.layoutMode === "static") {
         this.setState({
           staticMenuInactive: !this.state.staticMenuInactive
         });
@@ -83,24 +84,32 @@ class App extends Component {
   createMenu() {
     this.menu = [
       {
-        label: 'Players',
-        icon: 'pi pi-fw pi-user',
+        label: "Players",
+        icon: "pi pi-fw pi-user",
         command: () => {
-          window.location = '#/';
+          window.location = "#/";
         }
       },
       {
-        label: 'Reports',
-        icon: 'pi pi-fw pi-table',
+        label: "Reports",
+        icon: "pi pi-fw pi-table",
         command: () => {
-          window.location = '#/reports';
+          window.location = "#/reports";
         }
-      }];
+      },
+      {
+        label: "Schedule",
+        icon: "pi pi-fw pi-calendar",
+        command: () => {
+          window.location = "#/schedule";
+        }
+      }
+    ];
   }
 
   addClass(element, className) {
     if (element.classList) element.classList.add(className);
-    else element.className += ' ' + className;
+    else element.className += " " + className;
   }
 
   removeClass(element, className) {
@@ -108,10 +117,10 @@ class App extends Component {
     else
       element.className = element.className.replace(
         new RegExp(
-          '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
-          'gi'
+          "(^|\\b)" + className.split(" ").join("|") + "(\\b|$)",
+          "gi"
         ),
-        ' '
+        " "
       );
   }
 
@@ -121,24 +130,24 @@ class App extends Component {
 
   componentDidUpdate() {
     if (this.state.mobileMenuActive)
-      this.addClass(document.body, 'body-overflow-hidden');
-    else this.removeClass(document.body, 'body-overflow-hidden');
+      this.addClass(document.body, "body-overflow-hidden");
+    else this.removeClass(document.body, "body-overflow-hidden");
   }
 
   render() {
-    const wrapperClass = classNames('layout-wrapper', {
-      'layout-overlay': this.state.layoutMode === 'overlay',
-      'layout-static': this.state.layoutMode === 'static',
-      'layout-static-sidebar-inactive':
-        this.state.staticMenuInactive && this.state.layoutMode === 'static',
-      'layout-overlay-sidebar-active':
-        this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
-      'layout-mobile-sidebar-active': this.state.mobileMenuActive
+    const wrapperClass = classNames("layout-wrapper", {
+      "layout-overlay": this.state.layoutMode === "overlay",
+      "layout-static": this.state.layoutMode === "static",
+      "layout-static-sidebar-inactive":
+        this.state.staticMenuInactive && this.state.layoutMode === "static",
+      "layout-overlay-sidebar-active":
+        this.state.overlayMenuActive && this.state.layoutMode === "overlay",
+      "layout-mobile-sidebar-active": this.state.mobileMenuActive
     });
 
-    const sidebarClassName = classNames('layout-sidebar', {
-      'layout-sidebar-dark': this.state.layoutColorMode === 'dark',
-      'layout-sidebar-light': this.state.layoutColorMode === 'light'
+    const sidebarClassName = classNames("layout-sidebar", {
+      "layout-sidebar-dark": this.state.layoutColorMode === "dark",
+      "layout-sidebar-light": this.state.layoutColorMode === "light"
     });
 
     return (
@@ -155,6 +164,7 @@ class App extends Component {
         <div className="layout-main">
           <Route path="/" exact component={Players} />
           <Route path="/reports" component={Reports} />
+          <Route path="/schedule" component={Schedule} />
         </div>
         <div className="layout-mask"></div>
       </div>

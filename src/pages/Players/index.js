@@ -1,20 +1,40 @@
-import React, {useState} from 'react';
-import { Panel } from 'primereact/panel';
-import { InputSwitch } from 'primereact/inputswitch';
-import { Button } from 'primereact/button';
-import { InputText } from 'primereact/inputtext';
-import { Chart } from 'primereact/chart';
-import { toArray } from '../../util/reshape';
-import { connect } from 'react-redux';
-import { requestUpdatePlayer } from '../../ducks/players';
-import PlayersHotloaders from '../../components/hotloaders/PlayersHotloaders';
+import React, { useState } from "react";
+import { Panel } from "primereact/panel";
+import { InputSwitch } from "primereact/inputswitch";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
+import { Chart } from "primereact/chart";
+import { toArray } from "../../util/reshape";
+import { connect } from "react-redux";
+import { requestUpdatePlayer } from "../../ducks/players";
+import { requestCreateSchedule } from "../../ducks/schedule";
+import { isEvent, getTodaysEvent } from "../../ducks/events";
+import PlayersHotloaders from "../../components/hotloaders/PlayersHotloaders";
+import EventsHotloader from "../../components/hotloaders/EventsHotloaders";
 
-export const Players = ({ players, _requestUpdatePlayer }) => {
-  const [selectedValue, setSelectedValue] = useState('');
+export const Players = ({
+  players,
+  _requestUpdatePlayer,
+  eventToday,
+  isEvent,
+  _requestCreateSchedule
+}) => {
+  const [selectedValue, setSelectedValue] = useState("");
   const handleChange = e => setSelectedValue(e.target.value);
   const handleCheckin = e => {
-    const updatedPlayer = { ...players[e.target.id], checkedin: !players[e.target.id].checkedin };
-    _requestUpdatePlayer(updatedPlayer);
+    const updatedPlayer = {
+      ...players[e.target.id],
+      checkedin: !players[e.target.id].checkedin
+    };
+    _requestUpdatePlayer(updatedPlayer, () => {
+      if (isEvent) {
+        const newSchedule = {
+          playerid: e.target.id,
+          eventid: eventToday[0].id
+        };
+        _requestCreateSchedule(newSchedule);
+      }
+    });
   };
   const filterByAnyValue = (arrayOfObjects, searchTeam) => {
     return (
@@ -23,7 +43,7 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
       toArray(arrayOfObjects).filter(playerObject =>
         Object.keys(playerObject).some(
           key =>
-            key !== 'id' &&
+            key !== "id" &&
             playerObject[key]
               .toString()
               .toLowerCase()
@@ -68,33 +88,34 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
           groupByGrade[8] || 0
         ],
         backgroundColor: [
-          '#9FA9BA',
-          '#167D83',
-          '#513F66',
-          '#FFC107',
-          '#03A9F4',
-          '#4CAF50',
-          '#E91E63',
-          '#9C27B0'
+          "#9FA9BA",
+          "#167D83",
+          "#513F66",
+          "#FFC107",
+          "#03A9F4",
+          "#4CAF50",
+          "#E91E63",
+          "#9C27B0"
         ],
-        label: 'Grade'
+        label: "Grade"
       }
     ],
-    labels: ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th']
+    labels: ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"]
   };
   const pieData = {
-    labels: ['Travel', 'InHouse'],
+    labels: ["Travel", "InHouse"],
     datasets: [
       {
-        data: [groupByBelongTo['TRAVEL'] || 0, groupByBelongTo['INHOUSE'] || 0],
-        backgroundColor: ['#FFC107', '#03A9F4'],
-        hoverBackgroundColor: ['#FFE082', '#81D4FA']
+        data: [groupByBelongTo["TRAVEL"] || 0, groupByBelongTo["INHOUSE"] || 0],
+        backgroundColor: ["#FFC107", "#03A9F4"],
+        hoverBackgroundColor: ["#FFE082", "#81D4FA"]
       }
     ]
   };
   return (
     <div className="p-grid p-fluid dashboard">
       <PlayersHotloaders />
+      <EventsHotloader /> 
       <div className="p-col-12 p-lg-4">
         <div className="card summary">
           <span className="title">Attendence</span>
@@ -106,14 +127,14 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
         <div className="highlight-box">
           <div
             className="initials"
-            style={{ backgroundColor: '#007be5', color: '#00448f' }}
+            style={{ backgroundColor: "#007be5", color: "#00448f" }}
           >
             <span>TR</span>
           </div>
           <div className="highlight-details ">
             <i className="pi pi-briefcase" />
             <span>In Attendence</span>
-            <span className="count">{groupByBelongTo['TRAVEL'] || 0}</span>
+            <span className="count">{groupByBelongTo["TRAVEL"] || 0}</span>
           </div>
         </div>
       </div>
@@ -121,14 +142,14 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
         <div className="highlight-box">
           <div
             className="initials"
-            style={{ backgroundColor: '#ef6262', color: '#a83d3b' }}
+            style={{ backgroundColor: "#ef6262", color: "#a83d3b" }}
           >
             <span>IN</span>
           </div>
           <div className="highlight-details ">
             <i className="pi pi-home" />
             <span>In Attendence</span>
-            <span className="count">{groupByBelongTo['INHOUSE'] || 0}</span>
+            <span className="count">{groupByBelongTo["INHOUSE"] || 0}</span>
           </div>
         </div>
       </div>
@@ -146,10 +167,10 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
               filterByAnyValue(players, selectedValue).map(
                 ({ firstname, lastname, grade, team, checkedin, id }) => {
                   return (
-                    <li>
+                    <li key={id}>
                       <button className="p-link">
                         <InputSwitch
-                          id={id}
+                          id={id.toString()}
                           checked={checkedin}
                           onChange={event => handleCheckin(event)}
                         />
@@ -182,10 +203,19 @@ export const Players = ({ players, _requestUpdatePlayer }) => {
 };
 
 export default connect(
-  ({ players }) => ({ players }),
+  state => {
+    return {
+      players: state.players,
+      isEvent: isEvent(state),
+      eventToday: getTodaysEvent(state)
+    };
+  },
   dispatch => ({
-    _requestUpdatePlayer: updatedPlayer => {
-      dispatch(requestUpdatePlayer(updatedPlayer));
+    _requestUpdatePlayer: (updatedPlayer, onSuccess) => {
+      dispatch(requestUpdatePlayer(updatedPlayer, onSuccess));
+    },
+    _requestCreateSchedule: (newSchedule, onSuccess) => {
+      dispatch(requestCreateSchedule(newSchedule, onSuccess));
     }
   })
 )(Players);
