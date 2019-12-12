@@ -1,6 +1,7 @@
 import request from "../util/request";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { toObject } from "../util/reshape";
+import { toObject, toArray } from "../util/reshape";
+import { createSelector } from "reselect";
 
 export const REQUEST_SCHEDULE = "schedule/REQUEST_SCHEDULE";
 export const REQUEST_SUCCEEDED = "schedule/REQUEST_SUCCEEDED";
@@ -108,3 +109,29 @@ export function* requestAllSchedules({ type }) {
 export const sagas = [updateEventSaga];
 
 export const schedule = ({ schedule }) => schedule;
+export const selected = ({ selected }) => selected;
+export const players = ({ players }) => players;
+
+export const getScheduleByEventId = createSelector(
+  [schedule, selected, players],
+  (scheduleState, selectedState, playersState) => {
+    var updatedPlayers = [];
+    if (selectedState.EVENT !== null) {
+      toArray(scheduleState).map(({ playerid, eventid }) => {
+        if (eventid === parseInt(selectedState.EVENT, 10)) {
+          const tmp = {
+            firstname:
+              playersState[playerid] && playersState[playerid].firstname,
+            lastname: playersState[playerid] && playersState[playerid].lastname,
+            grade: playersState[playerid] && playersState[playerid].grade,
+            team: playersState[playerid] && playersState[playerid].team,
+            belongto: playersState[playerid] && playersState[playerid].belongto
+          };
+          updatedPlayers.push(tmp);
+        }
+        return updatedPlayers;
+      });
+    }
+    return updatedPlayers;
+  }
+);

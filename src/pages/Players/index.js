@@ -165,7 +165,7 @@ export const Players = ({
             {players &&
               Object.keys(players).length !== 0 &&
               filterByAnyValue(players, selectedValue).map(
-                ({ firstname, lastname, grade, team, checkedin, id }) => {
+                ({ firstname, lastname, grade, team, checkedin, id, station }) => {
                   return (
                     <li key={id}>
                       <button className="p-link">
@@ -178,7 +178,7 @@ export const Players = ({
                           {firstname} {lastname}
                         </span>
                         <span className="email">
-                          Grade-{grade} Team-{team}
+                          Grade-{grade} Team-{team} Station-{station}
                         </span>
                       </button>
                     </li>

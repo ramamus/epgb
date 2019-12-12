@@ -11,13 +11,15 @@ import players, { sagas as playerSagas } from "./players";
 import events, { sagas as eventsSagas } from "./events";
 import schedule, { sagas as scheduleSagas } from "./schedule";
 import search from "./search";
+import selected from "./selected";
 
 export default {
   players,
   events,
   schedule,
   search,
-  sort
+  sort,
+  selected
 };
 
 const allSagas = [...playerSagas, ...eventsSagas, ...scheduleSagas];
