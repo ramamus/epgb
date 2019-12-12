@@ -115,21 +115,23 @@ export const players = ({ players }) => players;
 export const getScheduleByEventId = createSelector(
   [schedule, selected, players],
   (scheduleState, selectedState, playersState) => {
+    var updatedPlayers = [];
     if (selectedState.EVENT !== null) {
-      // return Object.values(scheduleState).reduce((acc, sch) => {
-      //   console.log(sch.playerid);
-      //   // if(curr.eventid)
-      //   return {
-      //     ...acc,
-      //     id: sch.playerid,
-      //     firstname: players[sch.playerid] && players[sch.playerid].firstname
-      //     // firstname: eventSchedule[selectedState.EVENT].firstname
-      //   };
-      // }, {});
-      toArray(scheduleState).map(({ playerid }) => {
-        console.log(playersState[playerid] && playersState[playerid].firstname);
+      toArray(scheduleState).map(({ playerid, eventid }) => {
+        if (eventid === parseInt(selectedState.EVENT, 10)) {
+          const tmp = {
+            firstname:
+              playersState[playerid] && playersState[playerid].firstname,
+            lastname: playersState[playerid] && playersState[playerid].lastname,
+            grade: playersState[playerid] && playersState[playerid].grade,
+            team: playersState[playerid] && playersState[playerid].team,
+            belongto: playersState[playerid] && playersState[playerid].belongto
+          };
+          updatedPlayers.push(tmp);
+        }
+        return updatedPlayers;
       });
     }
-    // return null;
+    return updatedPlayers;
   }
 );

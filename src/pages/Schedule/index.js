@@ -16,15 +16,18 @@ import EventsHotloader from "../../components/hotloaders/EventsHotloaders";
 import ScheduleHotloaders from "../../components/hotloaders/ScheduleHotloaders";
 import PlayersHotloaders from "../../components/hotloaders/PlayersHotloaders";
 import { selectResource } from "../../ducks/selected";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 export const Schedule = ({
   events,
   _requestCreateEvent,
   _selectResource,
-  scheduleByEvent
+  playerAttendenceByEvent
 }) => {
   const [startDate, setStartDate] = useState(undefined);
   const [title, setTitle] = useState(undefined);
+  const [eventName, setEventName] = useState('');
   const addEvent = () => {
     const event = {
       title,
@@ -38,9 +41,8 @@ export const Schedule = ({
   const fullcalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     eventClick: info => {
-      //naviagate to attendence and pull all attendence based on event id
+      setEventName(info.event.title);
       _selectResource(info.event.id);
-      console.log(info.event.title, info.event.id);
     },
     header: {
       left: "prev,next today",
@@ -56,31 +58,18 @@ export const Schedule = ({
       ...event,
       start: moment.utc(event.start).format("YYYY-MM-DD")
     }));
-  console.log(scheduleByEvent);
-
   return (
-    <div>
+    <div className="p-grid p-fluid">
       <PlayersHotloaders />
       <EventsHotloader />
       <ScheduleHotloaders />
-      <div className="p-col-12 p-md-6 p-lg-6">
-        <Panel header="Events" style={{ height: "100%" }}>
-          <ul className="task-list">
-            {events &&
-              Object.keys(events).length !== 0 &&
-              toArray(events).map(({ id, start, title }) => {
-                const formatedDate = moment.utc(start).format("MM/DD/YYYY");
-                return (
-                  <li key={id}>
-                    <span className="task-name">
-                      {title} on {formatedDate}
-                    </span>
-                  </li>
-                );
-              })}
-          </ul>
+      <div className="p-col-4">
+        <Panel header="Calendar" style={{ height: "100%" }}>
+          <FullCalendar events={updatedEvents} options={fullcalendarOptions} />
         </Panel>
-        <Panel>
+      </div>
+      <div className="p-col-4">
+        <Panel header="Events" style={{ height: "100%" }}>
           <div className="p-col-12 p-md-4">
             <InputText
               placeholder="Event Name"
@@ -105,11 +94,22 @@ export const Schedule = ({
           </div>
         </Panel>
       </div>
-      <div className="p-col-12 p-md-6 p-lg-6">
-        <Panel header="Calendar" style={{ height: "100%" }}>
-          <FullCalendar events={updatedEvents} options={fullcalendarOptions} />
-        </Panel>
+      <div className="p-col-12 p-lg-6">
+      <div className="card">
+        <h1 style={{ fontSize: "16px" }}>Players Attended {eventName}</h1>
+        <DataTable
+          value={playerAttendenceByEvent}
+          style={{ marginBottom: "20px" }}
+          responsive={true}
+        >
+          <Column field="firstname" header="First Name" sortable={true} />
+          <Column field="lastname" header="Last Name" sortable={true} />
+          <Column field="grade" header="Grade" sortable={true} />
+          <Column field="team" header="Team" sortable={true} />
+          <Column field="belongto" header="Plays For" sortable={true} />
+        </DataTable>
       </div>
+    </div>
     </div>
   );
 };
@@ -118,7 +118,7 @@ export default connect(
   state => {
     return {
       events: state.events,
-      scheduleByEvent: getScheduleByEventId(state)
+      playerAttendenceByEvent: getScheduleByEventId(state)
     };
   },
   dispatch => ({
