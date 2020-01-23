@@ -96,7 +96,7 @@ export const Schedule = ({
       </div>
       <div className="p-col-12 p-lg-6">
       <div className="card">
-        <h1 style={{ fontSize: "16px" }}>Players Attended {eventName}</h1>
+        <h1 style={{ fontSize: "16px" }}>Players Attended {eventName} <strong style={{ fontSize: '20px' }}>({playerAttendenceByEvent.length})</strong></h1>
         <DataTable
           value={playerAttendenceByEvent}
           style={{ marginBottom: "20px" }}
