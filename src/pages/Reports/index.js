@@ -20,7 +20,7 @@ const Reports = ({ players }) => {
       <PlayersHotloaders />
       <div className="p-col-12 p-lg-6">
         <div className="card">
-          <h1 style={{ fontSize: '16px' }}>Players Checked In</h1>
+          <h1 style={{ fontSize: '16px' }}>Players Checked In <strong style={{ fontSize: '20px' }}>({attending.length})</strong></h1>
           <DataTable
             value={attending}
             style={{ marginBottom: '20px' }}
@@ -37,7 +37,7 @@ const Reports = ({ players }) => {
       <div className="p-col-12 p-lg-6">
         <PlayersHotloaders />
         <div className="card">
-          <h1 style={{ fontSize: '16px' }}>Players Not Checked In</h1>
+          <h1 style={{ fontSize: '16px' }}>Players Not Checked In <strong style={{ fontSize: '20px' }}>({notAttending.length})</strong></h1>
           <DataTable
             value={notAttending}
             style={{ marginBottom: '20px' }}
