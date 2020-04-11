@@ -3,7 +3,8 @@ export const SELECT_RESOURCE = "SELECT_RESOURCE";
 export const initialState = {
   PLAYER: null,
   EVENT: null,
-  SCHEDULE: null
+  SCHEDULE: null,
+  MENTOR: null
 };
 
 export function selectResource(resourceType, id) {

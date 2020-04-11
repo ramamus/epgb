@@ -69,7 +69,7 @@ export const Schedule = ({
         </Panel>
       </div>
       <div className="p-col-4">
-        <Panel header="Events" style={{ height: "100%" }}>
+        <Panel header="Event" style={{ height: "100%" }}>
           <div className="p-col-12 p-md-4">
             <InputText
               placeholder="Event Name"
