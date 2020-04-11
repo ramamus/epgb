@@ -10,6 +10,7 @@ import sort from "./sort";
 import players, { sagas as playerSagas } from "./players";
 import events, { sagas as eventsSagas } from "./events";
 import schedule, { sagas as scheduleSagas } from "./schedule";
+import mentor, { sagas as mentorSagas } from "./mentor";
 import search from "./search";
 import selected from "./selected";
 
@@ -17,13 +18,19 @@ export default {
   players,
   events,
   schedule,
+  mentor,
   search,
   sort,
-  selected
+  selected,
 };
 
-const allSagas = [...playerSagas, ...eventsSagas, ...scheduleSagas];
+const allSagas = [
+  ...playerSagas,
+  ...eventsSagas,
+  ...scheduleSagas,
+  ...mentorSagas,
+];
 
 export function* rootSaga() {
-  yield all(allSagas.map(saga => fork(saga)));
+  yield all(allSagas.map((saga) => fork(saga)));
 }

@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 import Reports from "../src/pages/Reports";
 import Players from "../src/pages/Players";
 import Schedule from "../src/pages/Schedule";
+import Mentors from "../src/pages/Mentors";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -103,6 +104,13 @@ class App extends Component {
         command: () => {
           window.location = "#/schedule";
         }
+      },
+      {
+        label: "Mentor",
+        icon: "pi pi-fw pi-cog",
+        command: () => {
+          window.location = "#/mentor";
+        }
       }
     ];
   }
@@ -165,6 +173,7 @@ class App extends Component {
           <Route path="/" exact component={Players} />
           <Route path="/reports" component={Reports} />
           <Route path="/schedule" component={Schedule} />
+          <Route path="/mentor" component={Mentors} />
         </div>
         <div className="layout-mask"></div>
       </div>
